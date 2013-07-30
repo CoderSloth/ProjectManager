@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerForm));
             this.menuUniversal = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,6 +38,7 @@
             this.richTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileNewSpreadsheet = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileSaveCurrent = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFileSaveCurrentAs = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileSaveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuImport = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,10 +58,11 @@
             this.statusbarWordCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbltextpane = new System.Windows.Forms.Label();
             this.lblrtfpane = new System.Windows.Forms.Label();
-            this.menuFileSaveCurrentAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.sizingtab = new System.Windows.Forms.PictureBox();
             this.menuUniversal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sizingtab)).BeginInit();
             this.SuspendLayout();
             // 
             // menuUniversal
@@ -136,6 +139,13 @@
             this.menuFileSaveCurrent.Size = new System.Drawing.Size(213, 22);
             this.menuFileSaveCurrent.Text = "Save current";
             this.menuFileSaveCurrent.Click += new System.EventHandler(this.menuFileSaveCurrent_Click);
+            // 
+            // menuFileSaveCurrentAs
+            // 
+            this.menuFileSaveCurrentAs.Name = "menuFileSaveCurrentAs";
+            this.menuFileSaveCurrentAs.Size = new System.Drawing.Size(213, 22);
+            this.menuFileSaveCurrentAs.Text = "Save current as...";
+            this.menuFileSaveCurrentAs.Click += new System.EventHandler(this.menuFileSaveCurrentAs_Click);
             // 
             // menuFileSaveAll
             // 
@@ -218,9 +228,11 @@
             this.menuHelpAbout.Name = "menuHelpAbout";
             this.menuHelpAbout.Size = new System.Drawing.Size(107, 22);
             this.menuHelpAbout.Text = "About";
+            this.menuHelpAbout.Click += new System.EventHandler(this.menuHelpAbout_Click);
             // 
             // txtbox
             // 
+            this.txtbox.AcceptsTab = true;
             this.txtbox.Location = new System.Drawing.Point(10, 57);
             this.txtbox.Name = "txtbox";
             this.txtbox.Size = new System.Drawing.Size(300, 384);
@@ -230,12 +242,16 @@
             // 
             // rtfbox
             // 
+            this.rtfbox.AcceptsTab = true;
             this.rtfbox.Location = new System.Drawing.Point(330, 57);
             this.rtfbox.Name = "rtfbox";
             this.rtfbox.Size = new System.Drawing.Size(300, 606);
             this.rtfbox.TabIndex = 2;
             this.rtfbox.Text = "";
             this.rtfbox.TextChanged += new System.EventHandler(this.rtfbox_TextChanged);
+            this.rtfbox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Control_MouseDown);
+            this.rtfbox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Control_MouseMove);
+            this.rtfbox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Control_MouseUp);
             // 
             // picbox
             // 
@@ -303,18 +319,27 @@
             this.lblrtfpane.Text = "Untitled";
             this.lblrtfpane.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // menuFileSaveCurrentAs
+            // sizingtab
             // 
-            this.menuFileSaveCurrentAs.Name = "menuFileSaveCurrentAs";
-            this.menuFileSaveCurrentAs.Size = new System.Drawing.Size(213, 22);
-            this.menuFileSaveCurrentAs.Text = "Save current as...";
-            this.menuFileSaveCurrentAs.Click += new System.EventHandler(this.menuFileSaveCurrentAs_Click);
+            this.sizingtab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sizingtab.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.sizingtab.Cursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.sizingtab.Image = ((System.Drawing.Image)(resources.GetObject("sizingtab.Image")));
+            this.sizingtab.Location = new System.Drawing.Point(298, 429);
+            this.sizingtab.Name = "sizingtab";
+            this.sizingtab.Size = new System.Drawing.Size(12, 12);
+            this.sizingtab.TabIndex = 7;
+            this.sizingtab.TabStop = false;
+            this.sizingtab.MouseDown += new System.Windows.Forms.MouseEventHandler(this.resizetab_MouseDown);
+            this.sizingtab.MouseMove += new System.Windows.Forms.MouseEventHandler(this.resizetab_MouseMove);
+            this.sizingtab.MouseUp += new System.Windows.Forms.MouseEventHandler(this.resizetab_MouseUp);
             // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(826, 699);
+            this.Controls.Add(this.sizingtab);
             this.Controls.Add(this.lblrtfpane);
             this.Controls.Add(this.lbltextpane);
             this.Controls.Add(this.statusStrip1);
@@ -324,12 +349,13 @@
             this.Controls.Add(this.menuUniversal);
             this.MainMenuStrip = this.menuUniversal;
             this.Name = "ManagerForm";
-            this.Text = "Alpha 0.0 Project Manager";
+            this.Text = "Alpha 1.0 Project Manager";
             this.menuUniversal.ResumeLayout(false);
             this.menuUniversal.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sizingtab)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,6 +392,7 @@
         private System.Windows.Forms.ToolStripMenuItem wordCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuFileSaveCurrentAs;
         public System.Windows.Forms.Label lbltextpane;
+        private System.Windows.Forms.PictureBox sizingtab;
     }
 }
 

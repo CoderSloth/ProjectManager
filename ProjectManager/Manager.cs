@@ -18,12 +18,76 @@ namespace ProjectManager
             InitializeComponent();
             lbltextpane.Text = "Untitled";
             lblrtfpane.Text = "Untitled";
+            
         }
 
         // Create instances of panes to correspond with document objects.
-        // NEVER use a blank pane or it'll be unable to play nice with a document.
+        // NEVER use a new Pane() or it'll be unable to play nice with a document.
         Pane textpane = new Text();
         Pane rtfpane = new Richtext();
+
+        // Vars to be used with control movement methods
+        bool dragged = false;
+        int Control_X = 0;
+        int Control_Y = 0;
+
+        // Allow controls to be moved around when the user Left+CTRL drags on them.
+        private void Control_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((e.Button == MouseButtons.Left) && (Control.ModifierKeys == Keys.Control))
+            {
+                dragged = true;
+                Control_X = e.X;
+                Control_Y = e.Y;
+            }
+        }
+        private void Control_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                dragged = false;
+            }
+        }
+        private void Control_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button == MouseButtons.Left) && (Control.ModifierKeys == Keys.Control))
+            {
+                Control active = (Control)sender;
+                if (dragged == true)
+                {
+                    active.Left += e.X - Control_X / 12;
+                    active.Top += e.Y - Control_Y / 12;
+                    Control_X = e.X;
+                    Control_Y = e.Y;
+                }
+            }
+        }
+
+        // Vars to be used with control resizing methods
+        bool allowResize = false;
+
+        // Allow controls to be resized from the bottom right anchor image
+            // Currently having issues on MouseMove event because the sizingtab picture
+            // won't take the proper txtbox (or any other Control) as its Parent container
+        private void resizetab_MouseDown(object sender, MouseEventArgs e)
+        {
+            allowResize = true;
+        }
+        private void resizetab_MouseUp(object sender, MouseEventArgs e)
+        {
+            allowResize = false;
+        }
+        private void resizetab_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (allowResize == true)
+            {
+                this.Parent.Height = sizingtab.Top + e.Y;
+                this.Parent.Width = sizingtab.Left + e.X;
+            }   
+        } 
+
+
+        
 
        // Exit button
         private void menuFileExit_Click(object sender, EventArgs e)
@@ -47,7 +111,7 @@ namespace ProjectManager
             if (openFile1.ShowDialog() == DialogResult.OK)
             {
                 // Get file extension and set instance elements
-                // Trip the Dirty change and loaded switch upon load
+                // Trip the Dirty change manually and loaded switch upon load
                 string ext = Path.GetExtension(openFile1.FileName);
                 string title = Path.GetFileNameWithoutExtension(openFile1.FileName);
 
@@ -193,5 +257,13 @@ namespace ProjectManager
                 rtfpane.SavePaneAs(rtfbox.Rtf);
             }
         }
+
+        // About box popup
+        private void menuHelpAbout_Click(object sender, EventArgs e)
+        {
+            AboutBox1 a = new AboutBox1();
+            a.ShowDialog();
+        }
+
     }
 }

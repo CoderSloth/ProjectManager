@@ -18,6 +18,13 @@ namespace ProjectManager
         public int wordcount = 0;
 
         // Properties for all Panes
+            // Title of file
+            // Whether it's been loaded
+            // Whether changes have been made
+            // File extension (assigned by Pane type)
+            // Filter for saving (assigned by Pane type)
+            // Location of file if it's been loaded
+
         public Pane()
         {
             title = "Untitled";
@@ -136,13 +143,13 @@ namespace ProjectManager
                 {
                     // check if current char is part of a word
                     while (index < text.Length && Char.IsWhiteSpace(text[index]) == false)
-                        index++;
+                        index++; // move to next character
 
-                    wordcount++;
+                    wordcount++; // increase the wordcount by one
 
                     // skip whitespace until next word
                     while (index < text.Length && Char.IsWhiteSpace(text[index]) == true)
-                        index++;
+                        index++; // move to next character
                 }
 
                 if (wordcount > 0)
@@ -161,7 +168,7 @@ namespace ProjectManager
 
     } // end of Pane assignments
 
-        // Text pane specifics
+        // Text pane specifics (extension and file saving filter)
         public class Text : Pane
         {
             public Text()
@@ -171,7 +178,7 @@ namespace ProjectManager
             }
         }
         
-        // Rich text pane specifics
+        // Rich text pane specifics (extension and file saving filter)
         public class Richtext : Pane
         {
             public Richtext()
